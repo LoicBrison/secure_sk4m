@@ -120,7 +120,7 @@ class RoomDetailFragment : Fragment(), Timeline.Listener, ToolbarConfigurable {
 
         // Create some settings to configure timeline
         val timelineSettings = TimelineSettings(
-                initialSize = 30
+            initialSize = 30
         )
         // Then you can retrieve a timeline from this room.
         timeline = room?.createTimeline(null, timelineSettings)?.also {
@@ -128,6 +128,7 @@ class RoomDetailFragment : Fragment(), Timeline.Listener, ToolbarConfigurable {
             it.addListener(this)
             it.start()
         }
+
 
         // You can also listen to room summary from the room
         room?.getRoomSummaryLive()?.observe(viewLifecycleOwner) { roomSummary ->

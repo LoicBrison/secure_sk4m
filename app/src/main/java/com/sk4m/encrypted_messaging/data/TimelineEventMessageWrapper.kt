@@ -32,7 +32,8 @@ data class TimelineEventMessageWrapper(private val timelineEvent: TimelineEvent)
         // You might want to use getClearType in this case so you get the decrypted type if needed.
         return when (timelineEvent.root.getClearType()) {
             EventType.MESSAGE -> formatMessage(timelineEvent)
-            else -> "Event of type ${timelineEvent.root.getClearType()} not rendered yet"
+//            else -> "Event of type ${timelineEvent.root.getClearType()} not rendered yet"
+            else -> {timelineEvent.root.getClearType()}
         }
     }
 

@@ -15,11 +15,18 @@ import com.sk4m.encrypted_messaging.utils.AvatarRenderer
 import com.sk4m.encrypted_messaging.utils.MatrixItemColorProvider
 import com.stfalcon.chatkit.commons.ImageLoader
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.Matrix
+import org.matrix.android.sdk.api.session.SessionLifecycleObserver
+import org.matrix.android.sdk.api.session.room.RoomService
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.util.toMatrixItem
+import org.matrix.android.sdk.internal.session.room.membership.RoomMemberEventHandler_Factory
+import java.lang.reflect.Member
 
 
 class RoomListFragment : Fragment(), ToolbarConfigurable {
@@ -57,10 +64,15 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
         roomAdapter.setOnDialogClickListener {
             showRoomDetail(it.roomSummary)
         }
+        roomAdapter.setOnDialogLongClickListener {
+            showBottomSheet(it.roomSummary)
+        }
 
         views.fab.setOnClickListener { view ->
             addDialog.show(requireActivity().supportFragmentManager,null.toString())
         }
+
+
 
         // Create query to listen to room summary list
         val roomSummariesQuery = roomSummaryQueryParams {
@@ -78,7 +90,21 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
             avatarRenderer.render(userMatrixItem, views.toolbarAvatarImageView)
         }
 
+        val roomQueryParams = roomSummaryQueryParams {
+            memberships = listOf(Membership.INVITE)
+        }
+
+        session.getRoomSummariesLive(roomQueryParams).observe(viewLifecycleOwner) {
+            invitedRooms -> invitedRooms.map {  GlobalScope.launch { 	// creates a new coroutine and continues
+                joinInvitedRooms(it.roomId)			// suspending function
+            }}
+        }
+
         setHasOptionsMenu(true)
+    }
+
+    private suspend fun joinInvitedRooms(roomId: String) {
+        session.joinRoom(roomId, null, emptyList())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -98,9 +124,9 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
     private fun signOut() {
         lifecycleScope.launch {
             try {
+                displayLoginForm()
                 session.signOut(true)
                 session.stopAnyBackgroundSync()
-                displayLoginForm()
             } catch (failure: Throwable) {
                 activity?.let {
                     Toast.makeText(it, "Failure: $failure", Toast.LENGTH_SHORT).show()
@@ -111,6 +137,14 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
             SessionHolder.currentSession = null
             //activity?.finish()
         }
+    }
+
+    private fun showBottomSheet(roomSummary: RoomSummary){
+        val addBottomFragement =  addBottomFragement(roomSummary.roomId)
+        addBottomFragement.show(
+            (activity as MainActivity).supportFragmentManager,
+            "fragment_bottom_sheet"
+        )
     }
 
     private fun showRoomDetail(roomSummary: RoomSummary) {
@@ -138,7 +172,4 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
             .replace(R.id.fragmentContainer, fragment).commit()
     }
 
-    private fun addRoom(){
-
-    }
 }

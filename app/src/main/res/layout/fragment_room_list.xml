@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -34,7 +35,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Room list"
-                android:textColor="@android:color/black"
+                android:textColor="@color/Foreground"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -51,7 +52,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:dialogDividerColor="@color/Current_Line"
+        app:dialogMessageTextColor="@color/Comment"
+        app:dialogTitleTextColor="@color/colorAccent"
+        app:dialogUnreadTitleTextColor="@color/colorAccent"
+        app:dialogUnreadMessageTextColor="@color/Cyan"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -62,13 +68,6 @@
         android:layout_marginRight="@dimen/message_padding_right"
         android:layout_marginBottom="@dimen/message_padding_bottom"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_addbutton"
-
-        />
-<!--        android:src="@drawable/ic_my_icon"-->
-<!--        android:contentDescription="@string/submit"-->
-<!--        android:layout_margin="16dp" -->
-    />
-
+        android:src="@drawable/ic_addbutton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,4 +4,5 @@
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity" />
+    tools:context=".ui.MainActivity"
+    android:background="@color/Background"/>

@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -25,26 +26,27 @@ import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 
-class addRoomDialogFragment : DialogFragment() {
+class addRoomDialogFragment() : DialogFragment() {
 
     private val session = SessionHolder.currentSession!!
 
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater;
+            val builder = AlertDialog.Builder(requireContext())
 
-            val view = it.layoutInflater.inflate(R.layout.fragment_add_room_dialog, null)
-            val editText: EditText = view.findViewById<EditText>(R.id.username)
+            val editText = EditText(requireContext());
+            editText.hint = "Username";
 
-            builder.setView(inflater.inflate(R.layout.fragment_add_room_dialog, null))
-                .setPositiveButton("Créer",
+            builder.setTitle("Create room")
+            builder.setView(editText)
+            builder.setPositiveButton("Créer",
                     DialogInterface.OnClickListener { dialog, id ->
                         GlobalScope.launch { 	// creates a new coroutine and continues
                             creatDirectRoom(editText.text.toString())			// suspending function
                         }
                     })
-                .setNegativeButton("Cancel",
+            builder.setNegativeButton("Cancel",
                     DialogInterface.OnClickListener { dialog, id ->
                         getDialog()?.cancel()
                     })
@@ -59,9 +61,9 @@ class addRoomDialogFragment : DialogFragment() {
         return inflater.inflate(R.layout.fragment_add_room_dialog, container, false)
     }
 
-    suspend fun creatDirectRoom(username: String){
-        //TODO l'example en dessous marche le faire avec un paramètre
-        session.createDirectRoom("@skamos:matrix.sk4m.com")
+    private suspend fun creatDirectRoom(username: String){
+        val user = "@$username:matrix.sk4m.com"
+        session.createDirectRoom(user)
     }
 
 }

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dracula theme -->
+    <color name="Background">#282a36</color>
+    <color name="Current_Line">#44475a</color>
+    <color name="Foreground">#f8f8f2</color>
+    <color name="Comment">#6272a4</color>
+    <color name="Cyan">#8be9fd</color>
+    <color name="Green">#50fa7b</color>
+    <color name="Orange">#ffb86c</color>
+    <color name="Pink">#ff79c6</color>
+    <color name="Purple">#bd93f9</color>
+    <color name="Red">#ff5555</color>
+    <color name="Yellow">#f1fa8c</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

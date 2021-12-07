@@ -5,7 +5,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:background="@color/Background">
 
     <EditText
         android:id="@+id/usernameField"
@@ -19,7 +20,10 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/Foreground"
+        android:outlineAmbientShadowColor="@color/Current_Line"
+        android:textColorHint="@color/Comment"/>
 
     <EditText
         android:id="@+id/passwordField"
@@ -34,7 +38,10 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameField" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameField"
+        android:textColor="@color/Foreground"
+        android:outlineAmbientShadowColor="@color/Current_Line"
+        android:textColorHint="@color/Comment"/>
 
     <EditText
         android:id="@+id/confirmPasswordField"
@@ -49,7 +56,8 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordField" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordField"
+        android:textColorHint="@color/Comment"/>
 
     <EditText
         android:id="@+id/homeserverField"
@@ -65,7 +73,10 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordField" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordField"
+        android:textColor="@color/Foreground"
+        android:outlineAmbientShadowColor="@color/Current_Line"
+        android:textColorHint="@color/Comment"/>
 
     <Button
         android:id="@+id/RegisterButton"

@@ -72,19 +72,15 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
             addDialog.show(requireActivity().supportFragmentManager,null.toString())
         }
 
-
-
         // Create query to listen to room summary list
         val roomSummariesQuery = roomSummaryQueryParams {
             memberships = Membership.activeMemberships()
         }
-        // Then you can subscribe to livedata..
+
         session.getRoomSummariesLive(roomSummariesQuery).observe(viewLifecycleOwner) {
-            // ... And refresh your adapter with the list. It will be automatically updated when an item of the list is changed.
             updateRoomList(it)
         }
 
-        // You can also listen to user. Here we listen to ourself to get our avatar
         session.getUserLive(session.myUserId).observe(viewLifecycleOwner) { user ->
             val userMatrixItem = user.map { it.toMatrixItem() }.getOrNull() ?: return@observe
             avatarRenderer.render(userMatrixItem, views.toolbarAvatarImageView)
@@ -95,8 +91,8 @@ class RoomListFragment : Fragment(), ToolbarConfigurable {
         }
 
         session.getRoomSummariesLive(roomQueryParams).observe(viewLifecycleOwner) {
-            invitedRooms -> invitedRooms.map {  GlobalScope.launch { 	// creates a new coroutine and continues
-                joinInvitedRooms(it.roomId)			// suspending function
+            invitedRooms -> invitedRooms.map {  GlobalScope.launch {
+                joinInvitedRooms(it.roomId)
             }}
         }
 

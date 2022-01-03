@@ -62,8 +62,8 @@ class addRoomDialogFragment() : DialogFragment() {
     }
 
     private suspend fun creatDirectRoom(username: String){
-        val user = "@$username:matrix.sk4m.com"
-        session.createDirectRoom(user)
+        var user = username.trim().lowercase()
+        session.createDirectRoom("@$user:matrix.sk4m.com")
     }
 
 }
